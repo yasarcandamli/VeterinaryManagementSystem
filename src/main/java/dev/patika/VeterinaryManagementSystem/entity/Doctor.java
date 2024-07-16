@@ -7,33 +7,33 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "vaccines")
+@Table(name = "doctors")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Doctor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "customer_id")
+    @Column(name = "doctor_id")
     private long id;
 
     @NotNull
-    @Column(name = "customer_name")
+    @Column(name = "doctor_name")
     private String name;
 
     @NotNull
-    @Column(name = "customer_phone")
+    @Column(name = "doctor_phone")
     private String phone;
 
     @NotNull
-    @Column(name = "customer_mail")
+    @Column(name = "doctor_mail")
     private String mail;
 
     @NotNull
-    @Column(name = "customer_address")
+    @Column(name = "doctor_address")
     private String address;
 
     @NotNull
-    @Column(name = "customer_city")
+    @Column(name = "doctor_city")
     private String city;
 }
