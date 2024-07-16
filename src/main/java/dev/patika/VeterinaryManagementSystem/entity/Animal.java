@@ -35,6 +35,7 @@ public class Animal {
     @Column(name = "animal_gender")
     private String gender;
 
+    @NotNull
     @Column(name = "animal_color")
     private String color;
 
