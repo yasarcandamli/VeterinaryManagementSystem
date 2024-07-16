@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Table(name = "doctors")
 @Data
@@ -36,4 +38,10 @@ public class Doctor {
     @NotNull
     @Column(name = "doctor_city")
     private String city;
+
+    @OneToMany(mappedBy = "doctor")
+    private List<Appointment> appointmentList;
+
+    @OneToMany(mappedBy = "doctor")
+    private List<AvailableDate> availableDateList;
 }

@@ -34,4 +34,8 @@ public class Vaccine {
     @NotNull
     @Column(name = "vaccine_protection_end_date")
     private LocalDate protectionEndDate;
+
+    @ManyToOne
+    @JoinColumn(name = "vaccine_animal_id", referencedColumnName = "animal_id")
+    private Animal animal;
 }

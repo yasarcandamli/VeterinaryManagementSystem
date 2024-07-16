@@ -22,4 +22,8 @@ public class AvailableDate {
     @NotNull
     @Column(name = "available_date")
     private LocalDate availableDate;
+
+    @ManyToOne
+    @JoinColumn(name = "available_date_doctor_id", referencedColumnName = "doctor_id")
+    private Doctor doctor;
 }

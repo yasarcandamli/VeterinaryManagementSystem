@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "animals")
@@ -42,4 +43,15 @@ public class Animal {
     @NotNull
     @Column(name = "animal_date_of_birth")
     private LocalDate dateOfBirth;
+
+    @OneToMany(mappedBy = "animal")
+    private List<Appointment> appointmentList;
+
+    @OneToMany(mappedBy = "animal")
+    private List<Vaccine> vaccineList;
+
+    @ManyToOne
+    @JoinColumn(name = "animal_customer_id", referencedColumnName = "customer_id")
+    private Customer customer;
+
 }
