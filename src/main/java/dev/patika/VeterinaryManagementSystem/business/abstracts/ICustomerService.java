@@ -6,11 +6,11 @@ import org.springframework.data.domain.Page;
 public interface ICustomerService {
     Customer save(Customer customer);
 
-    Customer get(int id);
+    Customer get(long id);
 
     Customer update(Customer customer);
 
-    boolean delete(int id);
+    boolean delete(long id);
 
     Page<Customer> cursor(int page, int pageSize);
 }
