@@ -8,7 +8,9 @@ import dev.patika.VeterinaryManagementSystem.entity.Doctor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
+@Service
 public class DoctorManager implements IDoctorService {
     private final DoctorRepo doctorRepo;
 

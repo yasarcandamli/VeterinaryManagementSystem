@@ -4,12 +4,13 @@ import dev.patika.VeterinaryManagementSystem.business.abstracts.IVaccineService;
 import dev.patika.VeterinaryManagementSystem.core.exception.NotFoundException;
 import dev.patika.VeterinaryManagementSystem.core.utility.Messages;
 import dev.patika.VeterinaryManagementSystem.dao.VaccineRepo;
-import dev.patika.VeterinaryManagementSystem.entity.Doctor;
 import dev.patika.VeterinaryManagementSystem.entity.Vaccine;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
+@Service
 public class VaccineService implements IVaccineService {
     private final VaccineRepo vaccineRepo;
 

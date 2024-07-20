@@ -1,5 +1,6 @@
 package dev.patika.VeterinaryManagementSystem.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -40,5 +41,6 @@ public class Customer {
     private String city;
 
     @OneToMany(mappedBy = "customer")
+    @JsonManagedReference
     private List<Animal> animalList;
 }
