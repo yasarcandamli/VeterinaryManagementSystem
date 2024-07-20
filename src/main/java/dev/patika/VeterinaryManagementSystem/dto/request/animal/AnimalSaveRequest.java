@@ -1,7 +1,5 @@
 package dev.patika.VeterinaryManagementSystem.dto.request.animal;
 
-import dev.patika.VeterinaryManagementSystem.entity.Customer;
-import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,7 +1,9 @@
 package dev.patika.VeterinaryManagementSystem.core.config.modelMapper;
 
 import dev.patika.VeterinaryManagementSystem.dto.request.animal.AnimalSaveRequest;
+import dev.patika.VeterinaryManagementSystem.dto.request.vaccine.VaccineSaveRequest;
 import dev.patika.VeterinaryManagementSystem.entity.Animal;
+import dev.patika.VeterinaryManagementSystem.entity.Vaccine;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ public class ModelManagerService implements IModelMapperService {
         // Specific DTO and Entity configurations
         this.modelMapper.typeMap(AnimalSaveRequest.class, Animal.class).addMappings(mapper -> {
             mapper.skip(Animal::setId);  // skip the id for Animal
+        });
+        this.modelMapper.typeMap(VaccineSaveRequest.class, Vaccine.class).addMappings(mapper -> {
+            mapper.skip(Vaccine::setId);  // skip the id for Vaccine
         });
     }
 
