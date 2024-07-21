@@ -30,5 +30,5 @@ public class AnimalSaveRequest {
     private LocalDate dateOfBirth;
 
     @NotNull(message = "customerId cannot be empty or null!")
-    private long customerId;
+    private Long customerId;
 }

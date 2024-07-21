@@ -6,11 +6,11 @@ import org.springframework.data.domain.Page;
 public interface IDoctorService {
     Doctor save(Doctor doctor);
 
-    Doctor get(long id);
+    Doctor get(Long id);
 
     Doctor update(Doctor doctor);
 
-    boolean delete(long id);
+    boolean delete(Long id);
 
     Page<Doctor> cursor(int page, int pageSize);
 }

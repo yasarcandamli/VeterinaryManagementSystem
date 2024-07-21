@@ -18,7 +18,7 @@ public class AvailableDate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "available_date_id")
-    private long id;
+    private Long id;
 
     @NotNull
     @Column(name = "available_date")

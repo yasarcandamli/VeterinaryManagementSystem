@@ -23,5 +23,5 @@ public class VaccineSaveRequest {
     private LocalDate protectionEndDate;
 
     @NotNull(message = "animalId cannot be empty or null!")
-    private long animalId;
+    private Long animalId;
 }

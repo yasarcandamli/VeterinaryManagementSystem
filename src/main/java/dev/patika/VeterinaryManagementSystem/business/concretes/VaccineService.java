@@ -24,7 +24,7 @@ public class VaccineService implements IVaccineService {
     }
 
     @Override
-    public Vaccine get(long id) {
+    public Vaccine get(Long id) {
         return this.vaccineRepo.findById(id).orElseThrow(() -> new NotFoundException(Messages.NOT_FOUND));
     }
 
@@ -35,7 +35,7 @@ public class VaccineService implements IVaccineService {
     }
 
     @Override
-    public boolean delete(long id) {
+    public boolean delete(Long id) {
         Vaccine vaccine = this.get(id);
         this.vaccineRepo.delete(vaccine);
         return true;

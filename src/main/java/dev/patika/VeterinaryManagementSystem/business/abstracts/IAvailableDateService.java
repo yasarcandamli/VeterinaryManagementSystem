@@ -6,11 +6,11 @@ import org.springframework.data.domain.Page;
 public interface IAvailableDateService {
     AvailableDate save(AvailableDate availableDate);
 
-    AvailableDate get(long id);
+    AvailableDate get(Long id);
 
     AvailableDate update(AvailableDate availableDate);
 
-    boolean delete(long id);
+    boolean delete(Long id);
 
     Page<AvailableDate> cursor(int page, int pageSize);
 }

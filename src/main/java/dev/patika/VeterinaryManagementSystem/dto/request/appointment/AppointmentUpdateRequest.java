@@ -10,8 +10,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AppointmentUpdateRequest {
-    private long id;
+    private Long id;
     private LocalDateTime appointmentDate;
-    private long animalId;
-    private long doctorId;
+    private Long animalId;
+    private Long doctorId;
 }

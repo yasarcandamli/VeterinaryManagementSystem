@@ -7,6 +7,7 @@ import dev.patika.VeterinaryManagementSystem.core.result.ResultData;
 import dev.patika.VeterinaryManagementSystem.core.utility.ResultHelper;
 import dev.patika.VeterinaryManagementSystem.dto.CursorResponse;
 import dev.patika.VeterinaryManagementSystem.dto.request.animal.AnimalSaveRequest;
+import dev.patika.VeterinaryManagementSystem.dto.request.animal.AnimalUpdateRequest;
 import dev.patika.VeterinaryManagementSystem.dto.response.animal.AnimalResponse;
 import dev.patika.VeterinaryManagementSystem.entity.Animal;
 import dev.patika.VeterinaryManagementSystem.entity.Customer;
@@ -60,7 +61,7 @@ public class AnimalController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResultData<AnimalResponse> get(@PathVariable("id") int id) {
+    public ResultData<AnimalResponse> get(@PathVariable("id") Long id) {
         Animal animal = this.animalService.get(id);
         AnimalResponse animalResponse = this.modelMapper.forResponse().map(animal, AnimalResponse.class);
         return ResultHelper.success(animalResponse);
@@ -78,7 +79,7 @@ public class AnimalController {
 
     @GetMapping("/filterByCustomerId")
     @ResponseStatus(HttpStatus.OK)
-    public ResultData<List<AnimalResponse>> filterByCustomerId(@RequestParam("customerId") long customerId) {
+    public ResultData<List<AnimalResponse>> filterByCustomerId(@RequestParam("customerId") Long customerId) {
         List<Animal> animalList = this.customerService.get(customerId).getAnimalList();
         List<AnimalResponse> animalResponseList = animalList.stream()
                 .map(animal -> this.modelMapper.forResponse().map(animal, AnimalResponse.class))
@@ -86,23 +87,17 @@ public class AnimalController {
         return ResultHelper.successList(animalResponseList);
     }
 
-    @PutMapping
+    @PutMapping()
     @ResponseStatus(HttpStatus.OK)
-    public ResultData<AnimalResponse> update(@Valid @RequestBody BookUpdateRequest bookUpdateRequest) {
-        Book updateBook = this.modelMapper.forRequest().map(bookUpdateRequest, Book.class);
+    public ResultData<AnimalResponse> update(@Valid @RequestBody AnimalUpdateRequest animalUpdateRequest) {
+        Animal existingAnimal = this.animalService.get(animalUpdateRequest.getId());
 
-        Author author = this.authorService.get(bookUpdateRequest.getAuthorId());
-        updateBook.setAuthor(author);
+        this.modelMapper.forRequest().getConfiguration().setSkipNullEnabled(true);
+        this.modelMapper.forRequest().map(animalUpdateRequest, existingAnimal);
 
-        Publisher publisher = this.publisherService.get(bookUpdateRequest.getPublisherId());
-        updateBook.setPublisher(publisher);
+        Animal updatedAnimal = this.animalService.update(existingAnimal);
 
-        List<Category> categories = this.categoryService.getCategoryIdListByIds(bookUpdateRequest.getCategoryIdList());
-        updateBook.setCategoryList(categories);
-
-        this.bookService.update(updateBook);
-        AnimalResponse bookResponse = this.modelMapper.forResponse().map(updateBook, AnimalResponse.class);
-
-        return ResultHelper.success(bookResponse);
+        AnimalResponse animalResponse = this.modelMapper.forResponse().map(updatedAnimal, AnimalResponse.class);
+        return ResultHelper.success(animalResponse);
     }
 }

@@ -9,13 +9,13 @@ import java.util.List;
 public interface ICustomerService {
     Customer save(Customer customer);
 
-    Customer get(long id);
+    Customer get(Long id);
 
     List<Customer> filterByName(String name);
 
     Customer update(Customer customer);
 
-    boolean delete(long id);
+    boolean delete(Long id);
 
     Page<Customer> cursor(int page, int pageSize);
 }

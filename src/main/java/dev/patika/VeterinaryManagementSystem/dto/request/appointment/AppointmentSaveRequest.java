@@ -15,8 +15,8 @@ public class AppointmentSaveRequest {
     private LocalDateTime appointmentDate;
 
     @NotNull(message = "animalId cannot be empty or null!")
-    private long animalId;
+    private Long animalId;
 
     @NotNull(message = "doctorId cannot be empty or null!")
-    private long doctorId;
+    private Long doctorId;
 }

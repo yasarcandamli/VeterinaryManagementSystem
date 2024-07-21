@@ -10,10 +10,10 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class VaccineUpdateRequest {
-    private long id;
+    private Long id;
     private String name;
     private String code;
     private LocalDate protectionStartDate;
     private LocalDate protectionEndDate;
-    private long animalId;
+    private Long animalId;
 }

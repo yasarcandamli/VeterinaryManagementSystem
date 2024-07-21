@@ -5,7 +5,9 @@ import dev.patika.VeterinaryManagementSystem.core.config.modelMapper.IModelMappe
 import dev.patika.VeterinaryManagementSystem.core.result.ResultData;
 import dev.patika.VeterinaryManagementSystem.core.utility.ResultHelper;
 import dev.patika.VeterinaryManagementSystem.dto.CursorResponse;
+import dev.patika.VeterinaryManagementSystem.dto.request.animal.AnimalUpdateRequest;
 import dev.patika.VeterinaryManagementSystem.dto.request.customer.CustomerSaveRequest;
+import dev.patika.VeterinaryManagementSystem.dto.request.customer.CustomerUpdateRequest;
 import dev.patika.VeterinaryManagementSystem.dto.response.animal.AnimalResponse;
 import dev.patika.VeterinaryManagementSystem.dto.response.customer.CustomerResponse;
 import dev.patika.VeterinaryManagementSystem.entity.Animal;
@@ -54,7 +56,7 @@ public class CustomerController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResultData<CustomerResponse> get(@PathVariable("id") int id) {
+    public ResultData<CustomerResponse> get(@PathVariable("id") Long id) {
         Customer customer = this.customerService.get(id);
         CustomerResponse customerResponse = this.modelMapper.forResponse().map(customer, CustomerResponse.class);
         return ResultHelper.success(customerResponse);
@@ -72,11 +74,25 @@ public class CustomerController {
 
     @GetMapping("/allAnimalsOfCustomer")
     @ResponseStatus(HttpStatus.OK)
-    public ResultData<List<AnimalResponse>> allAnimalsOfCustomer(@RequestParam("customerId") long customerId) {
+    public ResultData<List<AnimalResponse>> allAnimalsOfCustomer(@RequestParam("customerId") Long customerId) {
         List<Animal> animalList = this.customerService.get(customerId).getAnimalList();
         List<AnimalResponse> animalResponseList = animalList.stream()
                 .map(animal -> this.modelMapper.forResponse().map(animal, AnimalResponse.class))
                 .collect(Collectors.toList());
         return ResultHelper.successList(animalResponseList);
+    }
+
+    @PutMapping()
+    @ResponseStatus(HttpStatus.OK)
+    public ResultData<CustomerResponse> update(@Valid @RequestBody CustomerUpdateRequest customerUpdateRequest) {
+        Customer existingCustomer = this.customerService.get(customerUpdateRequest.getId());
+
+        this.modelMapper.forRequest().getConfiguration().setSkipNullEnabled(true);
+        this.modelMapper.forRequest().map(customerUpdateRequest, existingCustomer);
+
+        Customer updatedCustomer = this.customerService.update(existingCustomer);
+
+        CustomerResponse customerResponse = this.modelMapper.forResponse().map(updatedCustomer, CustomerResponse.class);
+        return ResultHelper.success(customerResponse);
     }
 }

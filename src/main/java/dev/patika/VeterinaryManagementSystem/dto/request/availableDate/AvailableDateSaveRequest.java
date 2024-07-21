@@ -15,5 +15,5 @@ public class AvailableDateSaveRequest {
     private LocalDate availableDate;
 
     @NotNull(message = "doctorId cannot be empty or null!")
-    private long doctorId;
+    private Long doctorId;
 }
