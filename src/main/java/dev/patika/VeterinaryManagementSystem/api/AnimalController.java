@@ -3,6 +3,7 @@ package dev.patika.VeterinaryManagementSystem.api;
 import dev.patika.VeterinaryManagementSystem.business.abstracts.IAnimalService;
 import dev.patika.VeterinaryManagementSystem.business.abstracts.ICustomerService;
 import dev.patika.VeterinaryManagementSystem.core.config.modelMapper.IModelMapperService;
+import dev.patika.VeterinaryManagementSystem.core.result.Result;
 import dev.patika.VeterinaryManagementSystem.core.result.ResultData;
 import dev.patika.VeterinaryManagementSystem.core.utility.ResultHelper;
 import dev.patika.VeterinaryManagementSystem.dto.CursorResponse;
@@ -99,5 +100,12 @@ public class AnimalController {
 
         AnimalResponse animalResponse = this.modelMapper.forResponse().map(updatedAnimal, AnimalResponse.class);
         return ResultHelper.success(animalResponse);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Result delete(@PathVariable("id") Long id) {
+        this.animalService.delete(id);
+        return ResultHelper.ok();
     }
 }

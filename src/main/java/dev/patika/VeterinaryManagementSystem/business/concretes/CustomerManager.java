@@ -3,8 +3,10 @@ package dev.patika.VeterinaryManagementSystem.business.concretes;
 import dev.patika.VeterinaryManagementSystem.business.abstracts.ICustomerService;
 import dev.patika.VeterinaryManagementSystem.core.exception.NotFoundException;
 import dev.patika.VeterinaryManagementSystem.core.utility.Messages;
+import dev.patika.VeterinaryManagementSystem.dao.AnimalRepo;
 import dev.patika.VeterinaryManagementSystem.dao.CustomerRepo;
 import dev.patika.VeterinaryManagementSystem.entity.Customer;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -15,9 +17,11 @@ import java.util.List;
 @Service
 public class CustomerManager implements ICustomerService {
     private final CustomerRepo customerRepo;
+    private final AnimalRepo animalRepo;
 
-    public CustomerManager(CustomerRepo customerRepo) {
+    public CustomerManager(CustomerRepo customerRepo, AnimalRepo animalRepo) {
         this.customerRepo = customerRepo;
+        this.animalRepo = animalRepo;
     }
 
     @Override
@@ -42,8 +46,10 @@ public class CustomerManager implements ICustomerService {
     }
 
     @Override
+    @Transactional
     public boolean delete(Long id) {
         Customer customer = this.get(id);
+        this.animalRepo.deleteAllByCustomer(customer);
         this.customerRepo.delete(customer);
         return true;
     }
