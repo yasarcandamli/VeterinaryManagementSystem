@@ -85,4 +85,24 @@ public class AnimalController {
                 .collect(Collectors.toList());
         return ResultHelper.successList(animalResponseList);
     }
+
+    @PutMapping
+    @ResponseStatus(HttpStatus.OK)
+    public ResultData<AnimalResponse> update(@Valid @RequestBody BookUpdateRequest bookUpdateRequest) {
+        Book updateBook = this.modelMapper.forRequest().map(bookUpdateRequest, Book.class);
+
+        Author author = this.authorService.get(bookUpdateRequest.getAuthorId());
+        updateBook.setAuthor(author);
+
+        Publisher publisher = this.publisherService.get(bookUpdateRequest.getPublisherId());
+        updateBook.setPublisher(publisher);
+
+        List<Category> categories = this.categoryService.getCategoryIdListByIds(bookUpdateRequest.getCategoryIdList());
+        updateBook.setCategoryList(categories);
+
+        this.bookService.update(updateBook);
+        AnimalResponse bookResponse = this.modelMapper.forResponse().map(updateBook, AnimalResponse.class);
+
+        return ResultHelper.success(bookResponse);
+    }
 }
