@@ -11,10 +11,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AvailableDateServiceManager implements IAvailableDateService {
+public class AvailableDateManager implements IAvailableDateService {
     private final AvailableDateRepo availableDateRepo;
 
-    public AvailableDateServiceManager(AvailableDateRepo availableDateRepo) {
+    public AvailableDateManager(AvailableDateRepo availableDateRepo) {
         this.availableDateRepo = availableDateRepo;
     }
 

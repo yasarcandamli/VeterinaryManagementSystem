@@ -10,6 +10,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CustomerManager implements ICustomerService {
     private final CustomerRepo customerRepo;
@@ -26,6 +28,11 @@ public class CustomerManager implements ICustomerService {
     @Override
     public Customer get(long id) {
         return this.customerRepo.findById(id).orElseThrow(() -> new NotFoundException(Messages.NOT_FOUND));
+    }
+
+    @Override
+    public List<Customer> filterByName(String name) {
+        return this.customerRepo.findAllByName(name);
     }
 
     @Override

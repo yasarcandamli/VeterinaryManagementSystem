@@ -10,6 +10,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AnimalManager implements IAnimalService {
     private final AnimalRepo animalRepo;
@@ -26,6 +28,11 @@ public class AnimalManager implements IAnimalService {
     @Override
     public Animal get(long id) {
         return this.animalRepo.findById(id).orElseThrow(() -> new NotFoundException(Messages.NOT_FOUND));
+    }
+
+    @Override
+    public List<Animal> filterByName(String name) {
+        return this.animalRepo.findAllByName(name);
     }
 
     @Override
