@@ -1,8 +1,10 @@
 package dev.patika.VeterinaryManagementSystem.core.config.modelMapper;
 
 import dev.patika.VeterinaryManagementSystem.dto.request.animal.AnimalSaveRequest;
+import dev.patika.VeterinaryManagementSystem.dto.request.availableDate.AvailableDateSaveRequest;
 import dev.patika.VeterinaryManagementSystem.dto.request.vaccine.VaccineSaveRequest;
 import dev.patika.VeterinaryManagementSystem.entity.Animal;
+import dev.patika.VeterinaryManagementSystem.entity.AvailableDate;
 import dev.patika.VeterinaryManagementSystem.entity.Vaccine;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -31,6 +33,9 @@ public class ModelManagerService implements IModelMapperService {
         });
         this.modelMapper.typeMap(VaccineSaveRequest.class, Vaccine.class).addMappings(mapper -> {
             mapper.skip(Vaccine::setId);  // skip the id for Vaccine
+        });
+        this.modelMapper.typeMap(AvailableDateSaveRequest.class, AvailableDate.class).addMappings(mapper -> {
+            mapper.skip(AvailableDate::setId);  // skip the id for AvailableDate
         });
     }
 
