@@ -1,5 +1,6 @@
 package dev.patika.VeterinaryManagementSystem.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -25,9 +26,11 @@ public class Appointment {
 
     @ManyToOne
     @JoinColumn(name = "appointment_animal_id", referencedColumnName = "animal_id")
+    @JsonBackReference
     private Animal animal;
 
     @ManyToOne
     @JoinColumn(name = "appointment_doctor_id", referencedColumnName = "doctor_id")
+    @JsonBackReference
     private Doctor doctor;
 }

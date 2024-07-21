@@ -47,6 +47,7 @@ public class Animal {
     private LocalDate dateOfBirth;
 
     @OneToMany(mappedBy = "animal")
+    @JsonManagedReference
     private List<Appointment> appointmentList;
 
     @OneToMany(mappedBy = "animal")
