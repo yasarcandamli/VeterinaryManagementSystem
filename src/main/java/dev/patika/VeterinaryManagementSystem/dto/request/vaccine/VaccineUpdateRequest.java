@@ -15,5 +15,4 @@ public class VaccineUpdateRequest {
     private String code;
     private LocalDate protectionStartDate;
     private LocalDate protectionEndDate;
-    private Long animalId;
 }

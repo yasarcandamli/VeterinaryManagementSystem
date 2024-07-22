@@ -10,5 +10,6 @@ import java.util.List;
 @Repository
 public interface AnimalRepo extends JpaRepository<Animal, Long> {
     List<Animal> findAllByName(String name);
+    //@Transactional and @Modifying annotations can come here
     void deleteAllByCustomer(Customer customer);
 }

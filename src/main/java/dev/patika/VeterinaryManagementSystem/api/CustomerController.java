@@ -73,9 +73,9 @@ public class CustomerController {
         return ResultHelper.successList(customerResponseList);
     }
 
-    @GetMapping("/allAnimalsOfCustomer")
+    @GetMapping("/allAnimalsOfCustomer/{customerId}")
     @ResponseStatus(HttpStatus.OK)
-    public ResultData<List<AnimalResponse>> allAnimalsOfCustomer(@RequestParam("customerId") Long customerId) {
+    public ResultData<List<AnimalResponse>> allAnimalsOfCustomer(@PathVariable("customerId") Long customerId) {
         List<Animal> animalList = this.customerService.get(customerId).getAnimalList();
         List<AnimalResponse> animalResponseList = animalList.stream()
                 .map(animal -> this.modelMapper.forResponse().map(animal, AnimalResponse.class))

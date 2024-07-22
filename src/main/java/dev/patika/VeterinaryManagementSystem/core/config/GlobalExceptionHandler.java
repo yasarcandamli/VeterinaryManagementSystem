@@ -2,6 +2,7 @@ package dev.patika.VeterinaryManagementSystem.core.config;
 
 
 
+import dev.patika.VeterinaryManagementSystem.core.exception.ConflictException;
 import dev.patika.VeterinaryManagementSystem.core.exception.NotFoundException;
 import dev.patika.VeterinaryManagementSystem.core.result.Result;
 import dev.patika.VeterinaryManagementSystem.core.result.ResultData;
@@ -22,6 +23,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<Result> handleNotFoundException(NotFoundException e) {
         return new ResponseEntity<>(ResultHelper.notFoundError(e.getMessage()), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ConflictException.class)
+    public ResponseEntity<Result> handleConflictException(ConflictException e) {
+        return new ResponseEntity<>(ResultHelper.conflictError(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
