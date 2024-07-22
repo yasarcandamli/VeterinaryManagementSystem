@@ -37,6 +37,10 @@ public class ResultHelper {
         return new Result(false, message, "500");
     }
 
+    public static Result illegalArgumentError(String message) {
+        return new Result(false, message, "500");
+    }
+
     public static Result error() {
         return new Result(false, Messages.ERROR, "400");
     }

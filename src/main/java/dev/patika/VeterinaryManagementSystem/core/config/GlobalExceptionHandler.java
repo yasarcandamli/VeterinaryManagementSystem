@@ -30,6 +30,11 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(ResultHelper.conflictError(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Result> handleIllegalArgumentException(IllegalArgumentException e) {
+        return new ResponseEntity<>(ResultHelper.illegalArgumentError(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ResultData<List<String>>> handleValidationErrors(MethodArgumentNotValidException e) {
         List<String> validationErrorList = e.getBindingResult().getFieldErrors().stream()

@@ -3,6 +3,9 @@ package dev.patika.VeterinaryManagementSystem.business.abstracts;
 import dev.patika.VeterinaryManagementSystem.entity.Appointment;
 import org.springframework.data.domain.Page;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 public interface IAppointmentService {
     Appointment save(Appointment appointment);
 
@@ -13,4 +16,6 @@ public interface IAppointmentService {
     boolean delete(Long id);
 
     Page<Appointment> cursor(int page, int pageSize);
+
+    List<Appointment> findByDoctorIdAndAppointmentDateBetween(Long doctorId, LocalDateTime startDate, LocalDateTime endDate);
 }

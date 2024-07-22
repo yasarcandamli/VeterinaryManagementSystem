@@ -7,4 +7,5 @@ public class Messages {
     public static final String NOT_FOUND = "Data Not Found";
     public static final String ERROR = "Operation Failed";
     public static final String VACCINE_CONFLICT = "The animal already has a valid vaccine of this type";
+    public static final String ILLEGAL_ARGUMENT = "The doctor is already booked at this time";
 }
