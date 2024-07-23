@@ -76,7 +76,7 @@ public class AvailableDateController {
     @GetMapping("/filterByDoctorId/{doctorId}")
     @ResponseStatus(HttpStatus.OK)
     public ResultData<List<AvailableDateResponse>> filterByDoctorId(@PathVariable("doctorId") Long doctorId) {
-        List<AvailableDate> availableDateList = this.doctorService.get(doctorId).getAvailableDateList();
+        List<AvailableDate> availableDateList = this.availableDateService.findByDoctorId(doctorId);
         List<AvailableDateResponse> availableDateResponseList = availableDateList.stream()
                 .map(availableDate -> this.modelMapper.forResponse().map(availableDate, AvailableDateResponse.class))
                 .collect(Collectors.toList());

@@ -1,12 +1,12 @@
 package dev.patika.VeterinaryManagementSystem.business.concretes;
 
 import dev.patika.VeterinaryManagementSystem.business.abstracts.IAppointmentService;
-import dev.patika.VeterinaryManagementSystem.core.exception.ConflictException;
+import dev.patika.VeterinaryManagementSystem.core.exception.*;
 import dev.patika.VeterinaryManagementSystem.core.exception.IllegalArgumentException;
-import dev.patika.VeterinaryManagementSystem.core.exception.NotFoundException;
 import dev.patika.VeterinaryManagementSystem.core.utility.Messages;
 import dev.patika.VeterinaryManagementSystem.dao.AppointmentRepo;
 import dev.patika.VeterinaryManagementSystem.entity.Appointment;
+import dev.patika.VeterinaryManagementSystem.entity.AvailableDate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -18,15 +18,30 @@ import java.util.List;
 @Service
 public class AppointmentManager implements IAppointmentService {
     private final AppointmentRepo appointmentRepo;
+    private final AvailableDateManager availableDateManager;
 
-    public AppointmentManager(AppointmentRepo appointmentRepo) {
+    public AppointmentManager(AppointmentRepo appointmentRepo, AvailableDateManager availableDateManager) {
         this.appointmentRepo = appointmentRepo;
+        this.availableDateManager = availableDateManager;
     }
 
     @Override
     public Appointment save(Appointment appointment) {
         LocalDateTime appointmentDate = appointment.getAppointmentDate();
         Long doctorId = appointment.getDoctor().getId();
+
+        if (!isOnTheHour(appointmentDate)) {
+            throw new AppointmentHourException(Messages.APPOINTMENT_HOUR);
+        }
+
+        List<AvailableDate> availableDateList = availableDateManager.findByDoctorId(doctorId);
+        boolean isDoctorAvailable = availableDateList.stream()
+                .anyMatch(date -> date.getAvailableDate().equals(appointmentDate.toLocalDate()));
+
+        if (!isDoctorAvailable) {
+            throw new DoctorNotAvailableException(Messages.DOCTOR_NOT_AVAILABLE);
+        }
+
         List<Appointment> existingAppointments = appointmentRepo.findByDoctorIdAndAppointmentDateBetween(
                 doctorId,
                 appointmentDate.withMinute(0).withSecond(0).withNano(0),
@@ -34,7 +49,7 @@ public class AppointmentManager implements IAppointmentService {
         );
 
         if (!existingAppointments.isEmpty()) {
-            throw new IllegalArgumentException(Messages.ILLEGAL_ARGUMENT);
+            throw new AppointmentConflictException(Messages.APPOINTMENT_CONFLICT);
         }
         return this.appointmentRepo.save(appointment);
     }
@@ -47,7 +62,7 @@ public class AppointmentManager implements IAppointmentService {
     @Override
     public Appointment update(Appointment appointment) {
         this.get(appointment.getId()); //Control
-        return this.appointmentRepo.save(appointment);
+        return this.save(appointment);
     }
 
     @Override
@@ -66,5 +81,15 @@ public class AppointmentManager implements IAppointmentService {
     @Override
     public List<Appointment> findByDoctorIdAndAppointmentDateBetween(Long doctorId, LocalDateTime start, LocalDateTime end) {
         return this.appointmentRepo.findByDoctorIdAndAppointmentDateBetween(doctorId, start, end);
+    }
+
+    @Override
+    public List<Appointment> findByAnimalIdAndAppointmentDateBetween(Long animalId, LocalDateTime start, LocalDateTime end) {
+        return this.appointmentRepo.findByAnimalIdAndAppointmentDateBetween(animalId, start, end);
+    }
+
+    @Override
+    public boolean isOnTheHour(LocalDateTime dateTime) {
+        return dateTime.getMinute() == 0 && dateTime.getSecond() == 0 && dateTime.getNano() == 0;
     }
 }

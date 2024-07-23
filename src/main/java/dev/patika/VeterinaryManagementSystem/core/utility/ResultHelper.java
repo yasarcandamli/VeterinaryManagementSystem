@@ -33,7 +33,19 @@ public class ResultHelper {
         return new Result(false, message, "404");
     }
 
-    public static Result conflictError(String message) {
+    public static Result vaccineConflictError(String message) {
+        return new Result(false, message, "500");
+    }
+
+    public static Result doctorNotAvailableError(String message) {
+        return new Result(false, message, "500");
+    }
+
+    public static Result appointmentConflictError(String message) {
+        return new Result(false, message, "500");
+    }
+
+    public static Result appointmentHourError(String message) {
         return new Result(false, message, "500");
     }
 

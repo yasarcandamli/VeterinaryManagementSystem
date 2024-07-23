@@ -1,7 +1,7 @@
 package dev.patika.VeterinaryManagementSystem.business.concretes;
 
 import dev.patika.VeterinaryManagementSystem.business.abstracts.IVaccineService;
-import dev.patika.VeterinaryManagementSystem.core.exception.ConflictException;
+import dev.patika.VeterinaryManagementSystem.core.exception.VaccineConflictException;
 import dev.patika.VeterinaryManagementSystem.core.exception.NotFoundException;
 import dev.patika.VeterinaryManagementSystem.core.utility.Messages;
 import dev.patika.VeterinaryManagementSystem.dao.VaccineRepo;
@@ -32,7 +32,7 @@ public class VaccineManager implements IVaccineService {
         );
 
         if (!existingVaccines.isEmpty()) {
-            throw new ConflictException(Messages.VACCINE_CONFLICT);
+            throw new VaccineConflictException(Messages.VACCINE_CONFLICT);
         }
         return this.vaccineRepo.save(vaccine);
     }

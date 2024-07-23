@@ -10,6 +10,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AvailableDateManager implements IAvailableDateService {
     private final AvailableDateRepo availableDateRepo;
@@ -45,5 +47,10 @@ public class AvailableDateManager implements IAvailableDateService {
     public Page<AvailableDate> cursor(int page, int pageSize) {
         Pageable pageable = PageRequest.of(page, pageSize);
         return this.availableDateRepo.findAll(pageable);
+    }
+
+    @Override
+    public List<AvailableDate> findByDoctorId(Long doctorId) {
+        return this.availableDateRepo.findByDoctorId(doctorId);
     }
 }

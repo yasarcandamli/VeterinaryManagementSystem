@@ -17,5 +17,9 @@ public interface IAppointmentService {
 
     Page<Appointment> cursor(int page, int pageSize);
 
-    List<Appointment> findByDoctorIdAndAppointmentDateBetween(Long doctorId, LocalDateTime startDate, LocalDateTime endDate);
+    List<Appointment> findByDoctorIdAndAppointmentDateBetween(Long doctorId, LocalDateTime start, LocalDateTime end);
+
+    List<Appointment> findByAnimalIdAndAppointmentDateBetween(Long animalId, LocalDateTime start, LocalDateTime end);
+
+    public boolean isOnTheHour(LocalDateTime dateTime);
 }
