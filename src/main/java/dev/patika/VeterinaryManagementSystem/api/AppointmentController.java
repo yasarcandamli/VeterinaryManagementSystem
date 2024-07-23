@@ -113,6 +113,16 @@ public class AppointmentController {
     public ResultData<AppointmentResponse> update(@Valid @RequestBody AppointmentUpdateRequest appointmentUpdateRequest) {
         Appointment existingAppointment = this.appointmentService.get(appointmentUpdateRequest.getId());
 
+        if (appointmentUpdateRequest.getDoctorId() != null) {
+            Doctor doctor = this.doctorService.get(appointmentUpdateRequest.getDoctorId());
+            existingAppointment.setDoctor(doctor);
+        }
+
+        if (appointmentUpdateRequest.getAnimalId() != null) {
+            Animal animal = this.animalService.get(appointmentUpdateRequest.getAnimalId());
+            existingAppointment.setAnimal(animal);
+        }
+
         this.modelMapper.forRequest().getConfiguration().setSkipNullEnabled(true);
         this.modelMapper.forRequest().map(appointmentUpdateRequest, existingAppointment);
 

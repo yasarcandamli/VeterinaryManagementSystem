@@ -61,8 +61,45 @@ public class AppointmentManager implements IAppointmentService {
 
     @Override
     public Appointment update(Appointment appointment) {
-        this.get(appointment.getId()); //Control
-        return this.save(appointment);
+        Appointment existingAppointment = this.get(appointment.getId());
+
+        // Yeni randevu tarihini ve doktor bilgilerini alın
+        LocalDateTime appointmentDate = appointment.getAppointmentDate();
+        Long doctorId = appointment.getDoctor().getId();
+        LocalDateTime existingAppointmentDate = existingAppointment.getAppointmentDate();
+        Long existingDoctorId = existingAppointment.getDoctor().getId();
+
+        // Tarih ve doktorun değişip değişmediğini kontrol edin
+        boolean isDateOrDoctorChanged = !appointmentDate.equals(existingAppointmentDate) || !doctorId.equals(existingDoctorId);
+
+        if (!isOnTheHour(appointmentDate)) {
+            throw new AppointmentHourException(Messages.APPOINTMENT_HOUR);
+        }
+
+        // Eğer tarih veya doktor değiştiyse, çakışmaları kontrol edin
+        if (isDateOrDoctorChanged) {
+            // Doktorun mevcut randevularını kontrol edin
+            List<Appointment> conflictingAppointments = appointmentRepo.findByDoctorIdAndAppointmentDateBetween(
+                    doctorId,
+                    appointmentDate.withMinute(0).withSecond(0).withNano(0),
+                    appointmentDate.withMinute(59).withSecond(59).withNano(999999999)
+            );
+
+            // Mevcut randevuyu çakışanlardan çıkarın
+            conflictingAppointments.removeIf(a -> a.getId().equals(appointment.getId()));
+
+            // Eğer çakışma varsa, bir hata fırlatın
+            if (!conflictingAppointments.isEmpty()) {
+                throw new AppointmentConflictException(Messages.APPOINTMENT_CONFLICT);
+            }
+        }
+
+        // Randevuyu güncelleyin
+        existingAppointment.setAppointmentDate(appointmentDate);
+        existingAppointment.setDoctor(appointment.getDoctor());
+        // Diğer gerekli alanları da güncelleyin
+
+        return this.appointmentRepo.save(existingAppointment);
     }
 
     @Override

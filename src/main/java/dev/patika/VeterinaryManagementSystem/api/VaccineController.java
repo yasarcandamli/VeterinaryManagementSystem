@@ -102,6 +102,11 @@ private final IAnimalService animalService;
     public ResultData<VaccineResponse> update(@Valid @RequestBody VaccineUpdateRequest vaccineUpdateRequest) {
         Vaccine existingVaccine = this.vaccineService.get(vaccineUpdateRequest.getId());
 
+        if (vaccineUpdateRequest.getAnimalId() != null) {
+            Animal animal = this.animalService.get(vaccineUpdateRequest.getAnimalId());
+            existingVaccine.setAnimal(animal);
+        }
+
         this.modelMapper.forRequest().getConfiguration().setSkipNullEnabled(true);
         this.modelMapper.forRequest().map(vaccineUpdateRequest, existingVaccine);
 

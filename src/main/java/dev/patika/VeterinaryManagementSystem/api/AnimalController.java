@@ -93,6 +93,11 @@ public class AnimalController {
     public ResultData<AnimalResponse> update(@Valid @RequestBody AnimalUpdateRequest animalUpdateRequest) {
         Animal existingAnimal = this.animalService.get(animalUpdateRequest.getId());
 
+        if (animalUpdateRequest.getCustomerId() != null) {
+            Customer customer = this.customerService.get(animalUpdateRequest.getCustomerId());
+            existingAnimal.setCustomer(customer);
+        }
+
         this.modelMapper.forRequest().getConfiguration().setSkipNullEnabled(true);
         this.modelMapper.forRequest().map(animalUpdateRequest, existingAnimal);
 

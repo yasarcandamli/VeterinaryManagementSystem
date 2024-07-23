@@ -7,15 +7,9 @@ import dev.patika.VeterinaryManagementSystem.core.result.Result;
 import dev.patika.VeterinaryManagementSystem.core.result.ResultData;
 import dev.patika.VeterinaryManagementSystem.core.utility.ResultHelper;
 import dev.patika.VeterinaryManagementSystem.dto.CursorResponse;
-import dev.patika.VeterinaryManagementSystem.dto.request.animal.AnimalUpdateRequest;
-import dev.patika.VeterinaryManagementSystem.dto.request.appointment.AppointmentSaveRequest;
 import dev.patika.VeterinaryManagementSystem.dto.request.availableDate.AvailableDateSaveRequest;
 import dev.patika.VeterinaryManagementSystem.dto.request.availableDate.AvailableDateUpdateRequest;
-import dev.patika.VeterinaryManagementSystem.dto.response.animal.AnimalResponse;
-import dev.patika.VeterinaryManagementSystem.dto.response.appointment.AppointmentResponse;
 import dev.patika.VeterinaryManagementSystem.dto.response.availableDate.AvailableDateResponse;
-import dev.patika.VeterinaryManagementSystem.entity.Animal;
-import dev.patika.VeterinaryManagementSystem.entity.Appointment;
 import dev.patika.VeterinaryManagementSystem.entity.AvailableDate;
 import dev.patika.VeterinaryManagementSystem.entity.Doctor;
 import jakarta.validation.Valid;
@@ -87,6 +81,11 @@ public class AvailableDateController {
     @ResponseStatus(HttpStatus.OK)
     public ResultData<AvailableDateResponse> update(@Valid @RequestBody AvailableDateUpdateRequest availableDateUpdateRequest) {
         AvailableDate existingAvailableDate = this.availableDateService.get(availableDateUpdateRequest.getId());
+
+        if (availableDateUpdateRequest.getDoctorId() != null) {
+            Doctor doctor = this.doctorService.get(availableDateUpdateRequest.getDoctorId());
+            existingAvailableDate.setDoctor(doctor);
+        }
 
         this.modelMapper.forRequest().getConfiguration().setSkipNullEnabled(true);
         this.modelMapper.forRequest().map(availableDateUpdateRequest, existingAvailableDate);

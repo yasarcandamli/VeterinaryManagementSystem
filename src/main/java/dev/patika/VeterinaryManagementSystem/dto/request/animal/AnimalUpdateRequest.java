@@ -17,4 +17,5 @@ public class AnimalUpdateRequest {
     private String gender;
     private String color;
     private LocalDate dateOfBirth;
+    private Long customerId;
 }
