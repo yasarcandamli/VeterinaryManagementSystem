@@ -1,5 +1,6 @@
 package dev.patika.VeterinaryManagementSystem.dto.request.customer;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,6 +17,7 @@ public class CustomerSaveRequest {
     private String phone;
 
     @NotNull(message = "mail cannot be empty or null!")
+    @Email
     private String mail;
 
     @NotNull(message = "address cannot be empty or null!")

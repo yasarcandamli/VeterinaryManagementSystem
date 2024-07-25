@@ -36,6 +36,9 @@ public class CustomerManager implements ICustomerService {
 
     @Override
     public List<Customer> filterByName(String name) {
+        if (this.customerRepo.findAllByName(name).isEmpty()){
+            throw new NotFoundException(Messages.NOT_FOUND);
+        }
         return this.customerRepo.findAllByName(name);
     }
 

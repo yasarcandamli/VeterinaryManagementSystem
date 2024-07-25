@@ -32,6 +32,9 @@ public class AnimalManager implements IAnimalService {
 
     @Override
     public List<Animal> filterByName(String name) {
+        if (this.animalRepo.findAllByName(name).isEmpty()){
+            throw new NotFoundException(Messages.NOT_FOUND);
+        }
         return this.animalRepo.findAllByName(name);
     }
 
