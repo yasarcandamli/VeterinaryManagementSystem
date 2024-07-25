@@ -45,7 +45,7 @@ public class AppointmentManager implements IAppointmentService {
         List<Appointment> existingAppointments = appointmentRepo.findByDoctorIdAndAppointmentDateBetween(
                 doctorId,
                 appointmentDate.withMinute(0).withSecond(0).withNano(0),
-                appointmentDate.withMinute(59).withSecond(59).withNano(999999999)
+                appointmentDate.withMinute(59).withSecond(59).withNano(99)
         );
 
         if (!existingAppointments.isEmpty()) {
@@ -61,45 +61,37 @@ public class AppointmentManager implements IAppointmentService {
 
     @Override
     public Appointment update(Appointment appointment) {
-        Appointment existingAppointment = this.get(appointment.getId());
-
-        // Yeni randevu tarihini ve doktor bilgilerini alın
         LocalDateTime appointmentDate = appointment.getAppointmentDate();
         Long doctorId = appointment.getDoctor().getId();
-        LocalDateTime existingAppointmentDate = existingAppointment.getAppointmentDate();
-        Long existingDoctorId = existingAppointment.getDoctor().getId();
-
-        // Tarih ve doktorun değişip değişmediğini kontrol edin
-        boolean isDateOrDoctorChanged = !appointmentDate.equals(existingAppointmentDate) || !doctorId.equals(existingDoctorId);
 
         if (!isOnTheHour(appointmentDate)) {
             throw new AppointmentHourException(Messages.APPOINTMENT_HOUR);
         }
 
-        // Eğer tarih veya doktor değiştiyse, çakışmaları kontrol edin
-        if (isDateOrDoctorChanged) {
-            // Doktorun mevcut randevularını kontrol edin
-            List<Appointment> conflictingAppointments = appointmentRepo.findByDoctorIdAndAppointmentDateBetween(
-                    doctorId,
-                    appointmentDate.withMinute(0).withSecond(0).withNano(0),
-                    appointmentDate.withMinute(59).withSecond(59).withNano(999999999)
-            );
+        List<AvailableDate> availableDateList = availableDateManager.findByDoctorId(doctorId);
+        boolean isDoctorAvailable = availableDateList.stream()
+                .anyMatch(date -> date.getAvailableDate().equals(appointmentDate.toLocalDate()));
 
-            // Mevcut randevuyu çakışanlardan çıkarın
-            conflictingAppointments.removeIf(a -> a.getId().equals(appointment.getId()));
-
-            // Eğer çakışma varsa, bir hata fırlatın
-            if (!conflictingAppointments.isEmpty()) {
-                throw new AppointmentConflictException(Messages.APPOINTMENT_CONFLICT);
-            }
+        if (!isDoctorAvailable) {
+            throw new DoctorNotAvailableException(Messages.DOCTOR_NOT_AVAILABLE);
         }
 
-        // Randevuyu güncelleyin
-        existingAppointment.setAppointmentDate(appointmentDate);
-        existingAppointment.setDoctor(appointment.getDoctor());
-        // Diğer gerekli alanları da güncelleyin
+        List<Appointment> existingAppointments = appointmentRepo.findByDoctorIdAndAppointmentDateBetween(
+                doctorId,
+                appointmentDate.withMinute(0).withSecond(0).withNano(0),
+                appointmentDate.withMinute(59).withSecond(59).withNano(99)
+        );
 
-        return this.appointmentRepo.save(existingAppointment);
+        existingAppointments.removeIf(existingAppointment ->
+                existingAppointment.getAppointmentDate().equals(appointmentDate)
+        );
+
+        if (!existingAppointments.isEmpty()) {
+            throw new AppointmentConflictException(Messages.APPOINTMENT_CONFLICT);
+        }
+
+        this.get(appointment.getId()); //Control
+        return this.appointmentRepo.save(appointment);
     }
 
     @Override
