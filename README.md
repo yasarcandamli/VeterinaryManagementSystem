@@ -113,7 +113,6 @@ mvn spring-boot:run
 | GET         | `/v1/animals/{id}`                 | Get an animal by ID                      |                              | `AnimalResponse`             |
 | GET         | `/v1/animals/filterByAnimalName`   | Get animals by name                      | Query Parameter: `animalName` | `List<AnimalResponse>`       |
 | GET         | `/v1/animals/filterByCustomerId/{customerId}` | Get animals by customer ID             |                              | `List<AnimalResponse>`       |
-| GET         | `/v1/animals/allAppointmentsOfAnimal/{animalId}` | Get all appointments of an animal     |                              | `List<AppointmentResponse>`  |
 | PUT         | `/v1/animals`                     | Update an existing animal                | `AnimalUpdateRequest`        | `AnimalResponse`             |
 | DELETE      | `/v1/animals/{id}`                 | Delete an animal by ID                  |                              | `Result`                     |
 
