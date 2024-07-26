@@ -1,7 +1,6 @@
 package dev.patika.VeterinaryManagementSystem.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -41,11 +40,11 @@ public class Doctor {
     @Column(name = "doctor_city")
     private String city;
 
-    @OneToMany(mappedBy = "doctor")
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JsonIgnore
     private List<Appointment> appointmentList;
 
-    @OneToMany(mappedBy = "doctor")
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JsonIgnore
     private List<AvailableDate> availableDateList;
 }

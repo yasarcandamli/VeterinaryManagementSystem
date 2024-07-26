@@ -2,6 +2,7 @@ package dev.patika.VeterinaryManagementSystem.business.concretes;
 
 import dev.patika.VeterinaryManagementSystem.business.abstracts.IAvailableDateService;
 import dev.patika.VeterinaryManagementSystem.core.exception.NotFoundException;
+import dev.patika.VeterinaryManagementSystem.core.exception.RecordAlreadyExistException;
 import dev.patika.VeterinaryManagementSystem.core.utility.Messages;
 import dev.patika.VeterinaryManagementSystem.dao.AvailableDateRepo;
 import dev.patika.VeterinaryManagementSystem.entity.AvailableDate;
@@ -22,6 +23,9 @@ public class AvailableDateManager implements IAvailableDateService {
 
     @Override
     public AvailableDate save(AvailableDate availableDate) {
+        if (availableDateRepo.findByDoctorIdAndAvailableDate(availableDate.getDoctor().getId(), availableDate.getAvailableDate()).isPresent()) {
+            throw new RecordAlreadyExistException(Messages.RECORD_ALREADY_EXIST);
+        }
         return this.availableDateRepo.save(availableDate);
     }
 

@@ -2,7 +2,6 @@ package dev.patika.VeterinaryManagementSystem.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -47,11 +46,11 @@ public class Animal {
     @Column(name = "animal_date_of_birth")
     private LocalDate dateOfBirth;
 
-    @OneToMany(mappedBy = "animal")
+    @OneToMany(mappedBy = "animal", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JsonIgnore
     private List<Appointment> appointmentList;
 
-    @OneToMany(mappedBy = "animal")
+    @OneToMany(mappedBy = "animal", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JsonIgnore
     private List<Vaccine> vaccineList;
 

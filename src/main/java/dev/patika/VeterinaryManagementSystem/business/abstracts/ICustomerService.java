@@ -1,6 +1,5 @@
 package dev.patika.VeterinaryManagementSystem.business.abstracts;
 
-import dev.patika.VeterinaryManagementSystem.entity.Animal;
 import dev.patika.VeterinaryManagementSystem.entity.Customer;
 import org.springframework.data.domain.Page;
 

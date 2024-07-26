@@ -2,6 +2,7 @@ package dev.patika.VeterinaryManagementSystem.business.concretes;
 
 import dev.patika.VeterinaryManagementSystem.business.abstracts.IAnimalService;
 import dev.patika.VeterinaryManagementSystem.core.exception.NotFoundException;
+import dev.patika.VeterinaryManagementSystem.core.exception.RecordAlreadyExistException;
 import dev.patika.VeterinaryManagementSystem.core.utility.Messages;
 import dev.patika.VeterinaryManagementSystem.dao.AnimalRepo;
 import dev.patika.VeterinaryManagementSystem.entity.Animal;
@@ -22,6 +23,14 @@ public class AnimalManager implements IAnimalService {
 
     @Override
     public Animal save(Animal animal) {
+        if (animalRepo.findByNameAndSpeciesAndBreedAndGenderAndDateOfBirth(
+                animal.getName(),
+                animal.getSpecies(),
+                animal.getBreed(),
+                animal.getGender(),
+                animal.getDateOfBirth()).isPresent()) {
+            throw new RecordAlreadyExistException(Messages.RECORD_ALREADY_EXIST);
+        }
         return this.animalRepo.save(animal);
     }
 

@@ -1,7 +1,5 @@
 package dev.patika.VeterinaryManagementSystem.core.config;
 
-
-
 import dev.patika.VeterinaryManagementSystem.core.exception.*;
 import dev.patika.VeterinaryManagementSystem.core.result.Result;
 import dev.patika.VeterinaryManagementSystem.core.result.ResultData;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import java.lang.IllegalArgumentException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,27 +24,27 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(VaccineConflictException.class)
     public ResponseEntity<Result> handleConflictException(VaccineConflictException e) {
-        return new ResponseEntity<>(ResultHelper.vaccineConflictError(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(ResultHelper.vaccineConflictError(e.getMessage()), HttpStatus.CONFLICT);
     }
 
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<Result> handleIllegalArgumentException(IllegalArgumentException e) {
-        return new ResponseEntity<>(ResultHelper.illegalArgumentError(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+    @ExceptionHandler(RecordAlreadyExistException.class)
+    public ResponseEntity<Result> handleRecordAlreadyExistException(RecordAlreadyExistException e) {
+        return new ResponseEntity<>(ResultHelper.recordAlreadyExistError(e.getMessage()), HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(DoctorNotAvailableException.class)
     public ResponseEntity<Result> handleDoctorNotAvailableException(DoctorNotAvailableException e) {
-        return new ResponseEntity<>(ResultHelper.doctorNotAvailableError(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(ResultHelper.doctorNotAvailableError(e.getMessage()), HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(AppointmentConflictException.class)
     public ResponseEntity<Result> handleAppointmentConflictException(AppointmentConflictException e) {
-        return new ResponseEntity<>(ResultHelper.appointmentConflictError(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(ResultHelper.appointmentConflictError(e.getMessage()), HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(AppointmentHourException.class)
     public ResponseEntity<Result> handleAppointmentHourException(AppointmentHourException e) {
-        return new ResponseEntity<>(ResultHelper.appointmentHourError(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(ResultHelper.appointmentHourError(e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

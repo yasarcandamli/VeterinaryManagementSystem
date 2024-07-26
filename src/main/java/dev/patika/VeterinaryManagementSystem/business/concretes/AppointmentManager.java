@@ -2,7 +2,6 @@ package dev.patika.VeterinaryManagementSystem.business.concretes;
 
 import dev.patika.VeterinaryManagementSystem.business.abstracts.IAppointmentService;
 import dev.patika.VeterinaryManagementSystem.core.exception.*;
-import dev.patika.VeterinaryManagementSystem.core.exception.IllegalArgumentException;
 import dev.patika.VeterinaryManagementSystem.core.utility.Messages;
 import dev.patika.VeterinaryManagementSystem.dao.AppointmentRepo;
 import dev.patika.VeterinaryManagementSystem.entity.Appointment;
@@ -109,11 +108,17 @@ public class AppointmentManager implements IAppointmentService {
 
     @Override
     public List<Appointment> findByDoctorIdAndAppointmentDateBetween(Long doctorId, LocalDateTime start, LocalDateTime end) {
+        if (this.appointmentRepo.findByDoctorIdAndAppointmentDateBetween(doctorId, start, end).isEmpty()){
+            throw new NotFoundException(Messages.NOT_FOUND);
+        }
         return this.appointmentRepo.findByDoctorIdAndAppointmentDateBetween(doctorId, start, end);
     }
 
     @Override
     public List<Appointment> findByAnimalIdAndAppointmentDateBetween(Long animalId, LocalDateTime start, LocalDateTime end) {
+        if (this.appointmentRepo.findByAnimalIdAndAppointmentDateBetween(animalId, start, end).isEmpty()){
+            throw new NotFoundException(Messages.NOT_FOUND);
+        }
         return this.appointmentRepo.findByAnimalIdAndAppointmentDateBetween(animalId, start, end);
     }
 

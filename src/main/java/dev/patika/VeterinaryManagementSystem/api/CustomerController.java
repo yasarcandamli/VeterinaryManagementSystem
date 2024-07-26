@@ -6,7 +6,6 @@ import dev.patika.VeterinaryManagementSystem.core.result.Result;
 import dev.patika.VeterinaryManagementSystem.core.result.ResultData;
 import dev.patika.VeterinaryManagementSystem.core.utility.ResultHelper;
 import dev.patika.VeterinaryManagementSystem.dto.CursorResponse;
-import dev.patika.VeterinaryManagementSystem.dto.request.animal.AnimalUpdateRequest;
 import dev.patika.VeterinaryManagementSystem.dto.request.customer.CustomerSaveRequest;
 import dev.patika.VeterinaryManagementSystem.dto.request.customer.CustomerUpdateRequest;
 import dev.patika.VeterinaryManagementSystem.dto.response.animal.AnimalResponse;

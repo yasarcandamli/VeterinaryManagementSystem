@@ -1,6 +1,5 @@
 package dev.patika.VeterinaryManagementSystem.core.utility;
 
-
 import dev.patika.VeterinaryManagementSystem.core.result.Result;
 import dev.patika.VeterinaryManagementSystem.core.result.ResultData;
 import dev.patika.VeterinaryManagementSystem.dto.CursorResponse;
@@ -34,23 +33,23 @@ public class ResultHelper {
     }
 
     public static Result vaccineConflictError(String message) {
-        return new Result(false, message, "500");
+        return new Result(false, message, "409");
     }
 
     public static Result doctorNotAvailableError(String message) {
-        return new Result(false, message, "500");
+        return new Result(false, message, "409");
     }
 
     public static Result appointmentConflictError(String message) {
-        return new Result(false, message, "500");
+        return new Result(false, message, "409");
     }
 
     public static Result appointmentHourError(String message) {
-        return new Result(false, message, "500");
+        return new Result(false, message, "400");
     }
 
-    public static Result illegalArgumentError(String message) {
-        return new Result(false, message, "500");
+    public static Result recordAlreadyExistError(String message) {
+        return new Result(false, message, "409");
     }
 
     public static Result error() {

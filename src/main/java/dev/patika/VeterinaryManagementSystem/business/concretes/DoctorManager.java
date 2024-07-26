@@ -2,6 +2,7 @@ package dev.patika.VeterinaryManagementSystem.business.concretes;
 
 import dev.patika.VeterinaryManagementSystem.business.abstracts.IDoctorService;
 import dev.patika.VeterinaryManagementSystem.core.exception.NotFoundException;
+import dev.patika.VeterinaryManagementSystem.core.exception.RecordAlreadyExistException;
 import dev.patika.VeterinaryManagementSystem.core.utility.Messages;
 import dev.patika.VeterinaryManagementSystem.dao.DoctorRepo;
 import dev.patika.VeterinaryManagementSystem.entity.Doctor;
@@ -20,6 +21,12 @@ public class DoctorManager implements IDoctorService {
 
     @Override
     public Doctor save(Doctor doctor) {
+        if (doctorRepo.findByMail(doctor.getMail()).isPresent()) {
+            throw new RecordAlreadyExistException("A doctor with this email already exists.");
+        }
+        if (doctorRepo.findByPhone(doctor.getPhone()).isPresent()) {
+            throw new RecordAlreadyExistException("A doctor with this phone number already exists.");
+        }
         return this.doctorRepo.save(doctor);
     }
 

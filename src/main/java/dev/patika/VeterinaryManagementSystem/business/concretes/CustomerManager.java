@@ -2,6 +2,7 @@ package dev.patika.VeterinaryManagementSystem.business.concretes;
 
 import dev.patika.VeterinaryManagementSystem.business.abstracts.ICustomerService;
 import dev.patika.VeterinaryManagementSystem.core.exception.NotFoundException;
+import dev.patika.VeterinaryManagementSystem.core.exception.RecordAlreadyExistException;
 import dev.patika.VeterinaryManagementSystem.core.utility.Messages;
 import dev.patika.VeterinaryManagementSystem.dao.AnimalRepo;
 import dev.patika.VeterinaryManagementSystem.dao.CustomerRepo;
@@ -26,6 +27,12 @@ public class CustomerManager implements ICustomerService {
 
     @Override
     public Customer save(Customer customer) {
+        if (customerRepo.findByMail(customer.getMail()).isPresent()) {
+            throw new RecordAlreadyExistException("A customer with this email already exists.");
+        }
+        if (customerRepo.findByPhone(customer.getPhone()).isPresent()) {
+            throw new RecordAlreadyExistException("A customer with this phone number already exists.");
+        }
         return this.customerRepo.save(customer);
     }
 
