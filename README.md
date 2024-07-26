@@ -92,51 +92,72 @@ mvn spring-boot:run
 ## UML Diagram
 ![VeterinaryManagementSystem_UML_Diagram.png](VeterinaryManagementSystem_UML_Diagram.png)
 ## API Endpoints
-### Doctors
-| Method | Endpoint         | Description                |
-|--------|------------------|----------------------------|
-| POST   | /v1/doctors      | Create a new doctor        |
-| GET    | /v1/doctors      | Get all doctors            |
-| GET    | /v1/doctors/{id} | Get doctor by ID           |
-| PUT    | /v1/doctors      | Update an existing doctor  |
-| DELETE | /v1/doctors/{id} | Delete a doctor            |
-### Customers
-| Method | Endpoint                                                      | Description                           |
-|--------|---------------------------------------------------------------|---------------------------------------|
-| POST   | /v1/customers                                                | Create a new customer                 |
-| GET    | /v1/customers                                                | Get all customers                     |
-| GET    | /v1/customers/{id}                                           | Get customer by ID                    |
-| GET    | /v1/customers/filterByCustomerName?customerName={name}       | Filter customers by name              |
-| GET    | /v1/customers/allAnimalsOfCustomer/{customerId}              | Get all animals of a customer         |
-| PUT    | /v1/customers                                                | Update an existing customer           |
-| DELETE | /v1/customers/{id}                                           | Delete a customer                     |
-### Animals
-| Method | Endpoint         | Description                |
-|--------|------------------|----------------------------|
-| POST   | /v1/animals      | Create a new animal        |
-| GET    | /v1/animals      | Get all animals            |
-| GET    | /v1/animals/{id} | Get animal by ID           |
-| PUT    | /v1/animals      | Update an existing animal  |
-| DELETE | /v1/animals/{id} | Delete an animal           |
-### Available Dates
-| Method | Endpoint                                                | Description                               |
-|--------|---------------------------------------------------------|-------------------------------------------|
-| POST   | /v1/available_dates                                     | Create a new available date               |
-| GET    | /v1/available_dates                                     | Get all available dates                   |
-| GET    | /v1/available_dates/{id}                                | Get available date by ID                  |
-| GET    | /v1/available_dates/filterByDoctorId/{doctorId}         | Filter available dates by doctor ID       |
-| PUT    | /v1/available_dates                                     | Update an existing available date         |
-| DELETE | /v1/available_dates/{id}                                | Delete an available date                  |
-### Vaccines
-| Method | Endpoint                                                       | Description                              |
-|--------|----------------------------------------------------------------|------------------------------------------|
-| POST   | /v1/vaccines                                                   | Create a new vaccine                     |
-| GET    | /v1/vaccines                                                   | Get all vaccines                         |
-| GET    | /v1/vaccines/{id}                                              | Get vaccine by ID                        |
-| GET    | /v1/vaccines/allVaccinesOfAnimal/{animalId}                     | Get all vaccines of an animal            |
-| GET    | /v1/vaccines/expiring?startDate={startDate}&endDate={endDate}   | Get vaccines expiring between dates      |
-| PUT    | /v1/vaccines                                                   | Update an existing vaccine               |
-| DELETE | /v1/vaccines/{id}                                              | Delete a vaccine                         |
+### Customer
+
+| HTTP Method | Endpoint                          | Description                              | Request Body                | Response Body                |
+|-------------|-----------------------------------|------------------------------------------|------------------------------|------------------------------|
+| POST        | `/v1/customers`                    | Create a new customer                    | `CustomerSaveRequest`        | `CustomerResponse`           |
+| GET         | `/v1/customers`                    | Get a paginated list of customers        | Query Parameters: `page`, `pageSize` | `CursorResponse<CustomerResponse>` |
+| GET         | `/v1/customers/{id}`                | Get a customer by ID                     |                              | `CustomerResponse`           |
+| GET         | `/v1/customers/filterByCustomerName` | Get customers by name                   | Query Parameter: `customerName` | `List<CustomerResponse>`     |
+| GET         | `/v1/customers/allAnimalsOfCustomer/{customerId}` | Get all animals of a customer       |                              | `List<AnimalResponse>`       |
+| PUT         | `/v1/customers`                    | Update an existing customer              | `CustomerUpdateRequest`      | `CustomerResponse`           |
+| DELETE      | `/v1/customers/{id}`                | Delete a customer by ID                  |                              | `Result`                     |
+
+### Animal
+
+| HTTP Method | Endpoint                          | Description                              | Request Body                | Response Body                |
+|-------------|-----------------------------------|------------------------------------------|------------------------------|------------------------------|
+| POST        | `/v1/animals`                     | Create a new animal                      | `AnimalSaveRequest`          | `AnimalResponse`             |
+| GET         | `/v1/animals`                     | Get a paginated list of animals          | Query Parameters: `page`, `pageSize` | `CursorResponse<AnimalResponse>` |
+| GET         | `/v1/animals/{id}`                 | Get an animal by ID                      |                              | `AnimalResponse`             |
+| GET         | `/v1/animals/filterByCustomerId/{customerId}` | Get animals by customer ID             |                              | `List<AnimalResponse>`       |
+| GET         | `/v1/animals/allAppointmentsOfAnimal/{animalId}` | Get all appointments of an animal     |                              | `List<AppointmentResponse>`  |
+| PUT         | `/v1/animals`                     | Update an existing animal                | `AnimalUpdateRequest`        | `AnimalResponse`             |
+| DELETE      | `/v1/animals/{id}`                 | Delete an animal by ID                  |                              | `Result`                     |
+
+### Vaccine
+
+| HTTP Method | Endpoint                          | Description                              | Request Body                | Response Body                |
+|-------------|-----------------------------------|------------------------------------------|------------------------------|------------------------------|
+| POST        | `/v1/vaccines`                    | Create a new vaccine                     | `VaccineSaveRequest`         | `VaccineResponse`            |
+| GET         | `/v1/vaccines`                    | Get a paginated list of vaccines         | Query Parameters: `page`, `pageSize` | `CursorResponse<VaccineResponse>` |
+| GET         | `/v1/vaccines/{id}`                | Get a vaccine by ID                      |                              | `VaccineResponse`            |
+| GET         | `/v1/vaccines/allVaccinesOfAnimal/{animalId}` | Get all vaccines of an animal         |                              | `List<VaccineResponse>`      |
+| GET         | `/v1/vaccines/expiring`            | Get vaccines by protection end date range | Query Parameters: `startDate`, `endDate` | `List<VaccineResponse>`     |
+| PUT         | `/v1/vaccines`                    | Update an existing vaccine               | `VaccineUpdateRequest`       | `VaccineResponse`            |
+| DELETE      | `/v1/vaccines/{id}`                | Delete a vaccine by ID                   |                              | `Result`                     |
+
+### Doctor
+
+| HTTP Method | Endpoint                          | Description                              | Request Body                | Response Body                |
+|-------------|-----------------------------------|------------------------------------------|------------------------------|------------------------------|
+| POST        | `/v1/doctors`                     | Create a new doctor                      | `DoctorSaveRequest`          | `DoctorResponse`             |
+| GET         | `/v1/doctors`                     | Get a paginated list of doctors          | Query Parameters: `page`, `pageSize` | `CursorResponse<DoctorResponse>` |
+| GET         | `/v1/doctors/{id}`                 | Get a doctor by ID                      |                              | `DoctorResponse`             |
+| PUT         | `/v1/doctors`                     | Update an existing doctor                | `DoctorUpdateRequest`        | `DoctorResponse`             |
+| DELETE      | `/v1/doctors/{id}`                 | Delete a doctor by ID                    |                              | `Result`                     |
+
+### AvailableDate
+
+| HTTP Method | Endpoint                          | Description                              | Request Body                | Response Body                |
+|-------------|-----------------------------------|------------------------------------------|------------------------------|------------------------------|
+| POST        | `/v1/available_dates`             | Create a new available date              | `AvailableDateSaveRequest`   | `AvailableDateResponse`      |
+| GET         | `/v1/available_dates`             | Get a paginated list of available dates  | Query Parameters: `page`, `pageSize` | `CursorResponse<AvailableDateResponse>` |
+| GET         | `/v1/available_dates/{id}`         | Get an available date by ID              |                              | `AvailableDateResponse`      |
+| GET         | `/v1/available_dates/filterByDoctorId/{doctorId}` | Get available dates by doctor ID       |                              | `List<AvailableDateResponse>` |
+| PUT         | `/v1/available_dates`             | Update an existing available date        | `AvailableDateUpdateRequest` | `AvailableDateResponse`      |
+| DELETE      | `/v1/available_dates/{id}`         | Delete an available date by ID           |                              | `Result`                     |
+
+### Appointment
+
+| HTTP Method | Endpoint                          | Description                              | Request Body                | Response Body                |
+|-------------|-----------------------------------|------------------------------------------|------------------------------|------------------------------|
+| POST        | `/v1/appointments`                | Create a new appointment                | `AppointmentSaveRequest`     | `AppointmentResponse`       |
+| GET         | `/v1/appointments`                | Get a paginated list of appointments    | Query Parameters: `page`, `pageSize` | `CursorResponse<AppointmentResponse>` |
+| GET         | `/v1/appointments/{id}`            | Get an appointment by ID                |                              | `AppointmentResponse`       |
+| PUT         | `/v1/appointments`                | Update an existing appointment          | `AppointmentUpdateRequest`   | `AppointmentResponse`       |
+| DELETE      | `/v1/appointments/{id}`            | Delete an appointment by ID             |                              | `Result`                     |
 ## Code Structure
 - **api Package:** Contains REST controllers for handling HTTP requests.
 - **business Package:** Contains service interfaces and their implementations.
