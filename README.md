@@ -20,11 +20,15 @@ Configure your database and Hibernate settings in the **src/main/resources/appli
 spring.application.name=VeterinaryManagementSystem
 #### PostgreSQL Database Settings
 spring.datasource.url=jdbc:postgresql://localhost:5432/VeterinaryManagementSystem
+
 spring.datasource.username=postgres
+
 spring.datasource.password=yasarcan
 #### Hibernate Settings
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+
 spring.jpa.hibernate.ddl-auto=update
+
 spring.jpa.hibernate.show-sql=true
 ### Project Dependencies
 The project uses Maven for dependency management. The **pom.xml** file includes the following dependencies:
