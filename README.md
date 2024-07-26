@@ -156,6 +156,8 @@ mvn spring-boot:run
 | POST        | `/v1/appointments`                | Create a new appointment                | `AppointmentSaveRequest`     | `AppointmentResponse`       |
 | GET         | `/v1/appointments`                | Get a paginated list of appointments    | Query Parameters: `page`, `pageSize` | `CursorResponse<AppointmentResponse>` |
 | GET         | `/v1/appointments/{id}`            | Get an appointment by ID                |                              | `AppointmentResponse`       |
+| GET         | `/v1/appointments/filterByDoctorAndDateRange` | Get appointments by doctor and date range | Query Parameters: `doctorId`, `startDate`, `endDate` | `List<AppointmentResponse>` |
+| GET         | `/v1/appointments/filterByAnimalAndDateRange` | Get appointments by animal and date range | Query Parameters: `animalId`, `startDate`, `endDate` | `List<AppointmentResponse>` |
 | PUT         | `/v1/appointments`                | Update an existing appointment          | `AppointmentUpdateRequest`   | `AppointmentResponse`       |
 | DELETE      | `/v1/appointments/{id}`            | Delete an appointment by ID             |                              | `Result`                     |
 ## Code Structure
