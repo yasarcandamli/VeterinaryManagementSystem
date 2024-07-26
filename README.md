@@ -111,6 +111,7 @@ mvn spring-boot:run
 | POST        | `/v1/animals`                     | Create a new animal                      | `AnimalSaveRequest`          | `AnimalResponse`             |
 | GET         | `/v1/animals`                     | Get a paginated list of animals          | Query Parameters: `page`, `pageSize` | `CursorResponse<AnimalResponse>` |
 | GET         | `/v1/animals/{id}`                 | Get an animal by ID                      |                              | `AnimalResponse`             |
+| GET         | `/v1/animals/filterByAnimalName`   | Get animals by name                      | Query Parameter: `animalName` | `List<AnimalResponse>`       |
 | GET         | `/v1/animals/filterByCustomerId/{customerId}` | Get animals by customer ID             |                              | `List<AnimalResponse>`       |
 | GET         | `/v1/animals/allAppointmentsOfAnimal/{animalId}` | Get all appointments of an animal     |                              | `List<AppointmentResponse>`  |
 | PUT         | `/v1/animals`                     | Update an existing animal                | `AnimalUpdateRequest`        | `AnimalResponse`             |
