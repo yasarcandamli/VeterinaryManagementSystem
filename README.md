@@ -16,13 +16,13 @@
 ### Configuration
 
 Configure your database and Hibernate settings in the **src/main/resources/application.properties** file:
-#### Spring Boot Uygulama Ayarları
+#### Spring Boot Application Settings
 spring.application.name=VeterinaryManagementSystem
-#### PostgreSQL Veritabanı Ayarları
+#### PostgreSQL Database Settings
 spring.datasource.url=jdbc:postgresql://localhost:5432/VeterinaryManagementSystem
 spring.datasource.username=postgres
 spring.datasource.password=yasarcan
-#### Hibernate Ayarları
+#### Hibernate Settings
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.hibernate.show-sql=true
